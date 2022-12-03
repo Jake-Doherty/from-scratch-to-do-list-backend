@@ -14,6 +14,6 @@ CREATE TABLE todos (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   user_id BIGINT,
   detail VARCHAR,
-  completed BOOLEAN,
+  completed BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (user_id) REFERENCES users(id) 
 );
