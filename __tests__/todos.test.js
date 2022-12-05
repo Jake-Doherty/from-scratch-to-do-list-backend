@@ -31,7 +31,7 @@ describe('todo routes', () => {
     return setup(pool);
   });
 
-  it.only('POST /api/v1/todos should create a new todo in the db', async () => {
+  it('POST /api/v1/todos should create a new todo in the db', async () => {
     const [agent, user] = await registerAndLogin();
 
     const testTodo = {
@@ -48,6 +48,29 @@ describe('todo routes', () => {
         "id": "1",
         "user_id": "1",
       }
+    `);
+  });
+
+  it('GET /api/v1/todos should return a list of todos', async () => {
+    const [agent, user] = await registerAndLogin();
+
+    const testTodo = {
+      userId: user.id,
+      detail: 'I really need to do this',
+    };
+
+    await agent.post('/api/v1/todos').send(testTodo);
+
+    const resp = await agent.get('/api/v1/todos');
+
+    expect(resp.body).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "detail": "I really need to do this",
+          "id": "1",
+          "user_id": "1",
+        },
+      ]
     `);
   });
 
